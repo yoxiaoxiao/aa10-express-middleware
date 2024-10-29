@@ -1,3 +1,7 @@
+const express = require("express");
+const router = express.Router();
+const foodsRouter = require("./dog-foods");
+
 // ------------------------------  SERVER DATA ------------------------------  
 
 let nextDogId = 1;
@@ -85,3 +89,12 @@ const deleteDog = (req, res) => {
 // ------------------------------  ROUTER ------------------------------  
 
 // Your code here 
+router.get("/", getAllDogs);
+router.get("/:dogId", validateDogId,getDogById);
+router.post("/", validateDogInfo, createDog); // Don't need to check id, because dogId is automatically assigned.
+router.put("/:dogId", validateDogId, validateDogInfo, updateDog); 
+router.delete("/:dogId", validateDogId, deleteDog);
+
+router.use("/:dogId/foods", foodsRouter);
+
+module.exports = router;
